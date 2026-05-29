@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WORLD VOLLEYBALL POWERS | 世界の強豪国ガイド</title>
+    <title>WORLD VOLLEYBALL POWERS | 世界の強豪国ガイド & ゲーム</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -51,11 +51,15 @@
             background: rgba(15, 23, 42, 0.8);
             backdrop-filter: blur(10px);
         }
+        
+        /* ゲーム用スタイル */
+        canvas {
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+        }
     </style>
 </head>
 <body class="text-gray-100">
 
-    <!-- Header -->
     <nav class="fixed w-full z-50 glass-nav border-b border-white/10">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="text-2xl font-black tracking-tighter accent-red italic">
@@ -63,6 +67,7 @@
             </div>
             <div class="hidden md:flex space-x-10 font-bold text-xs tracking-widest">
                 <a href="#home" class="hover:text-accent-red transition">TOP</a>
+                <a href="#game" class="text-red-500 hover:text-red-400 transition">▶ PLAY GAME</a>
                 <a href="#powers" class="hover:text-accent-red transition">POWERHOUSES</a>
                 <a href="#rankings" class="hover:text-accent-red transition">RANKINGS</a>
                 <a href="#rules" class="hover:text-accent-red transition">RULES</a>
@@ -73,7 +78,6 @@
         </div>
     </nav>
 
-    <!-- Hero -->
     <section id="home" class="hero-section h-screen flex items-center justify-center text-center px-4">
         <div class="max-w-5xl">
             <p class="accent-red font-black tracking-[0.4em] mb-4 text-sm">GLOBAL ELITE TEAMS</p>
@@ -81,79 +85,115 @@
                 THE REAL <br>STRONGEST.
             </h1>
             <p class="text-lg md:text-2xl mb-12 opacity-80 max-w-2xl mx-auto font-light leading-relaxed">
-                高さ、パワー、そして精密さ。バレーボール界の頂点に君臨する「真の強豪国」たちの真髄に迫る。
+                高さ、パワー、そして精密さ。バレーボール界の頂点に君臨する「真の強豪国」を打ち破る、体感型アタックバトル。
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-6">
-                <a href="#powers" class="bg-accent-red hover:bg-red-700 text-white px-12 py-5 rounded-sm font-black text-sm tracking-widest transition-all">世界の強豪を見る</a>
-                <a href="#rankings" class="border border-white/30 hover:bg-white hover:text-black px-12 py-5 rounded-sm font-black text-sm tracking-widest transition-all">ランキング詳細</a>
+                <a href="#game" class="bg-accent-red hover:bg-red-700 text-white px-12 py-5 rounded-sm font-black text-sm tracking-widest transition-all shadow-lg shadow-red-600/30">世界に挑む (GAME START)</a>
+                <a href="#powers" class="border border-white/30 hover:bg-white hover:text-black px-12 py-5 rounded-sm font-black text-sm tracking-widest transition-all">強豪国の分析データ</a>
             </div>
         </div>
     </section>
 
-    <!-- Powerhouses Section -->
-    <section id="powers" class="py-28 bg-[#0a0f1d]">
+    <section id="game" class="py-24 bg-[#0a0f1d] border-b border-white/10">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <div class="text-center mb-10">
+                <h2 class="text-4xl md:text-5xl font-black section-title italic uppercase tracking-tighter">World Spike Challenge</h2>
+                <p class="text-gray-400 mt-4 tracking-widest text-sm">タイミングを極め、世界最高峰のディフェンスをブチ抜け！</p>
+            </div>
+
+            <div class="bg-[#111827] border border-white/10 rounded-2xl overflow-hidden relative shadow-2xl">
+                <div id="game-ui" class="absolute inset-0 flex flex-col justify-between p-6 pointer-events-none z-10">
+                    <div class="flex justify-between items-center opacity-0 transition-opacity duration-300" id="ui-header">
+                        <div class="bg-black/60 px-4 py-2 rounded border border-white/10">
+                            <span class="text-xs text-gray-400 tracking-wider">OPPONENT:</span>
+                            <span class="font-black ml-2 italic text-red-500" id="ui-enemy-name">-</span>
+                        </div>
+                        <div class="bg-black/60 px-4 py-2 rounded border border-white/10 text-right">
+                            <span class="text-xs text-gray-400 tracking-wider">SCORE:</span>
+                            <span class="font-black ml-2 text-xl italic text-green-400" id="ui-score">0 / 5</span>
+                        </div>
+                    </div>
+
+                    <div class="text-center my-auto flex flex-col items-center justify-center pointer-events-auto" id="ui-center-screen">
+                        <div id="menu-screen" class="space-y-6">
+                            <h3 class="text-2xl font-black italic tracking-wide">使用チームを選択してください</h3>
+                            <div class="flex justify-center gap-4">
+                                <button onclick="startGame('JAPAN')" class="bg-white text-black font-black px-6 py-3 rounded hover:bg-red-600 hover:text-white transition uppercase tracking-widest text-sm">🇯🇵 JAPAN (Balance)</button>
+                                <button onclick="startGame('USA')" class="bg-white text-black font-black px-6 py-3 rounded hover:bg-red-600 hover:text-white transition uppercase tracking-widest text-sm">🇺🇸 USA (Power)</button>
+                            </div>
+                            <p class="text-xs text-gray-400 mt-4"><i class="fas fa-info-circle mr-1"></i> 操作方法: スペースキー または 画面クリック のみ</p>
+                        </div>
+                    </div>
+
+                    <div class="text-center bg-black/40 py-2 rounded border border-white/5 opacity-0 transition-opacity duration-300" id="ui-footer-guide">
+                        <p class="text-xs tracking-widest font-bold text-gray-300" id="ui-guide-text">TAP TO TOSS</p>
+                    </div>
+                </div>
+
+                <canvas id="gameCanvas" width="800" height="450" class="w-full h-auto block"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <section id="powers" class="py-28 bg-[#0f172a]">
         <div class="container mx-auto px-6">
             <div class="text-center mb-20">
                 <h2 class="text-4xl md:text-5xl font-black section-title italic uppercase tracking-tighter">Top Powerhouses</h2>
-                <p class="text-gray-400 mt-6 tracking-widest text-sm">現代バレーボールを支配する世界最強の国々</p>
+                <p class="text-gray-400 mt-6 tracking-widest text-sm">ゲーム内での敵ステータスのベースとなる世界最強国</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Poland -->
                 <div class="nation-card bg-white/5 p-8 rounded-2xl relative overflow-hidden group">
                     <div class="absolute -top-10 -right-10 text-8xl font-black opacity-5 italic group-hover:text-accent-red transition-colors">01</div>
                     <div class="flex items-center gap-4 mb-6">
-                        <div class="w-12 h-8 bg-white border border-gray-300"></div> <!-- Placeholder for Poland Flag -->
+                        <div class="w-12 h-8 bg-white border border-gray-300 flex flex-col"><div class="h-1/2 bg-white"></div><div class="h-1/2 bg-red-600"></div></div>
                         <h3 class="text-3xl font-black italic">POLAND</h3>
                     </div>
-                    <p class="text-accent-red font-bold text-xs mb-4 uppercase tracking-widest">世界ランク1位 (常連)</p>
+                    <p class="text-accent-red font-bold text-xs mb-4 uppercase tracking-widest">ゲーム特性：【超高層ブロック】</p>
                     <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                        「バレーボール大国」として知られ、全ポジションに世界トップクラスの選手を揃える。圧倒的な選手層の厚さと、勝負所での集中力は他の追随を許さない。
+                        全ポジションに2メートル級が並ぶ。ゲーム内では最高打点（ジャンプの頂点）かつ完璧なタイミングで打たないと、高い壁にシャットアウトされる。
                     </p>
                     <ul class="text-xs text-gray-500 space-y-2">
-                        <li><i class="fas fa-check accent-red mr-2"></i> 超攻撃的なジャンプサーブ</li>
-                        <li><i class="fas fa-check accent-red mr-2"></i> 2メートル級が並ぶ高い壁</li>
+                        <li><i class="fas fa-check accent-red mr-2"></i> 驚異のブロック高さ：MAX</li>
+                        <li><i class="fas fa-check accent-red mr-2"></i> 生半可なスパイクは全てシャットアウト</li>
                     </ul>
                 </div>
 
-                <!-- France -->
                 <div class="nation-card bg-white/5 p-8 rounded-2xl relative overflow-hidden group">
                     <div class="absolute -top-10 -right-10 text-8xl font-black opacity-5 italic group-hover:text-accent-red transition-colors">02</div>
                     <div class="flex items-center gap-4 mb-6">
-                        <div class="w-12 h-8 bg-blue-600"></div> <!-- Placeholder for France Flag -->
+                        <div class="w-12 h-8 bg-blue-600 flex"><div class="w-1/3 bg-blue-600"></div><div class="w-1/3 bg-white"></div><div class="w-1/3 bg-red-600"></div></div>
                         <h3 class="text-3xl font-black italic">FRANCE</h3>
                     </div>
-                    <p class="text-accent-red font-bold text-xs mb-4 uppercase tracking-widest">オリンピック連覇</p>
+                    <p class="text-accent-red font-bold text-xs mb-4 uppercase tracking-widest">ゲーム特性：【神速のレシーブ力】</p>
                     <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                        驚異的な守備力と、トリッキーなコンビネーションが持ち味。バレーを「楽しむ」ようなクリエイティブなプレーで、相手を翻弄する。
+                        驚異的な守備力（ディグ）が持ち味。ブロックは並みだが、スパイクの威力が「PERFECT」でない限り、どんな強打もクリエイティブに拾い上げてくる。
                     </p>
                     <ul class="text-xs text-gray-500 space-y-2">
-                        <li><i class="fas fa-check accent-red mr-2"></i> 落ちない繋ぎ（ディグ）</li>
-                        <li><i class="fas fa-check accent-red mr-2"></i> 変幻自在のセットアップ</li>
+                        <li><i class="fas fa-check accent-red mr-2"></i> 落ちない繋ぎ（レシーブ力）：MAX</li>
+                        <li><i class="fas fa-check accent-red mr-2"></i> コートの隅に突き刺す精密さが必要</li>
                     </ul>
                 </div>
 
-                <!-- Italy -->
                 <div class="nation-card bg-white/5 p-8 rounded-2xl relative overflow-hidden group">
                     <div class="absolute -top-10 -right-10 text-8xl font-black opacity-5 italic group-hover:text-accent-red transition-colors">03</div>
                     <div class="flex items-center gap-4 mb-6">
-                        <div class="w-12 h-8 bg-green-600"></div> <!-- Placeholder for Italy Flag -->
+                        <div class="w-12 h-8 bg-green-600 flex"><div class="w-1/3 bg-green-600"></div><div class="w-1/3 bg-white"></div><div class="w-1/3 bg-red-600"></div></div>
                         <h3 class="text-3xl font-black italic">ITALY</h3>
                     </div>
-                    <p class="text-accent-red font-bold text-xs mb-4 uppercase tracking-widest">世界選手権覇者</p>
+                    <p class="text-accent-red font-bold text-xs mb-4 uppercase tracking-widest">ゲーム特性：【高精度システムバレー】</p>
                     <p class="text-gray-400 text-sm leading-relaxed mb-6">
-                        若き才能が次々と台頭する新星。緻密なデータ分析に基づいた戦略と、セリエAという世界最高峰の環境で鍛えられた個の力が融合。
+                        緻密なデータ分析に基づいた戦略。ブロック、レシーブ共に隙がないバランス型。最初のボスとしてプレイヤーの総合的なタイミング精度を試してくる。
                     </p>
                     <ul class="text-xs text-gray-500 space-y-2">
-                        <li><i class="fas fa-check accent-red mr-2"></i> 高精度のシステムバレー</li>
-                        <li><i class="fas fa-check accent-red mr-2"></i> 世界最高のセッター陣</li>
+                        <li><i class="fas fa-check accent-red mr-2"></i> 守備・ブロック：高バランス</li>
+                        <li><i class="fas fa-check accent-red mr-2"></i> 基本的な「GREAT」以上のスパイクで攻略可能</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Ranking Insight -->
     <section id="rankings" class="py-28 bg-white text-gray-900">
         <div class="container mx-auto px-6">
             <div class="flex flex-col lg:flex-row gap-20 items-center">
@@ -166,7 +206,7 @@
                     <div class="bg-gray-100 p-8 rounded-lg border-l-8 border-accent-red">
                         <h4 class="font-black text-xl mb-4">なぜポーランドは強いのか？</h4>
                         <p class="text-sm text-gray-500 leading-relaxed">
-                            彼らの強さは「継続性」にあります。どの大会でも安定してベスト4以上に食い込む実力があり、怪我人が出ても代わりの選手が同レベルの活躍をするという、選手層の厚さが最大の武器です。
+                            彼らの強さは「継続性」にあります。どの大会でも安定してベスト4以上に食い込む実力があり、怪我人が出ても代わりの選手が同レベルの活躍をするという、選手層の厚さが最大の武器です。ゲームでも彼らは最終ボスとして君臨します。
                         </p>
                     </div>
                 </div>
@@ -175,31 +215,30 @@
                         <div class="flex items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded">
                             <span class="font-black italic w-12">#01</span>
                             <span class="font-bold flex-1 text-lg">POLAND</span>
-                            <span class="text-accent-red font-black">400+ pts</span>
+                            <span class="text-accent-red font-black">BOSS 3</span>
                         </div>
                         <div class="flex items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded">
                             <span class="font-black italic w-12 text-gray-400">#02</span>
                             <span class="font-bold flex-1 text-lg">FRANCE</span>
-                            <span class="text-gray-500 font-bold">Rising</span>
+                            <span class="text-gray-500 font-bold">BOSS 2</span>
                         </div>
                         <div class="flex items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded">
                             <span class="font-black italic w-12 text-gray-400">#03</span>
                             <span class="font-bold flex-1 text-lg">ITALY</span>
-                            <span class="text-gray-500 font-bold">Stable</span>
+                            <span class="text-gray-500 font-bold">BOSS 1</span>
                         </div>
                         <div class="flex items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded">
                             <span class="font-black italic w-12 text-gray-400">#04</span>
                             <span class="font-bold flex-1 text-lg">USA / JAPAN</span>
-                            <span class="text-gray-500 font-bold text-sm italic">Top Tier</span>
+                            <span class="text-gray-500 font-bold text-sm italic">PLAYER TEAM</span>
                         </div>
                     </div>
-                    <p class="text-[10px] text-gray-400 mt-4 tracking-widest text-right">※ランキングは大会ごとに常に変動します。</p>
+                    <p class="text-[10px] text-gray-400 mt-4 tracking-widest text-right">※ゲームの難易度はこの公式ランキング順に高くなります。</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Rules Section -->
     <section id="rules" class="py-28 bg-[#0a0f1d] text-white">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
@@ -219,13 +258,12 @@
                 <div class="space-y-4">
                     <div class="text-accent-red text-5xl mb-6"><i class="fas fa-trophy"></i></div>
                     <h4 class="text-xl font-bold">5セットマッチ</h4>
-                    <p class="text-gray-400 text-sm italic">国際大会の基本。3セット先取で勝利が決定します。</p>
+                    <p class="text-gray-400 text-sm italic">国際大会の基本。3セット先取で勝利が決定します。（※ゲームは5球アタックのサドンデス制！）</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="bg-black text-white py-20 border-t border-white/5">
         <div class="container mx-auto px-6 flex flex-col items-center">
             <div class="text-4xl font-black italic accent-red mb-10 tracking-tighter">WORLD VOLLEYBALL HUB</div>
@@ -235,13 +273,14 @@
                 <a href="#" class="hover:text-accent-red transition"><i class="fab fa-youtube"></i></a>
             </div>
             <p class="text-xs text-gray-700 tracking-widest text-center leading-loose">
-                © 2024 WORLD VOLLEYBALL FAN RESOURCE.<br>
+                © 2026 WORLD VOLLEYBALL FAN RESOURCE.<br>
                 EXCELLENCE IN EVERY SPIKE.
             </p>
         </div>
     </footer>
 
     <script>
+        // スムーススクロール
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -250,6 +289,569 @@
                 });
             });
         });
+
+        // --- ゲームエンジン実装 ---
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // ゲーム状態定義
+        const STATE = {
+            MENU: 'MENU',
+            STAGE_INTRO: 'STAGE_INTRO',
+            WAIT_TOSS: 'WAIT_TOSS',
+            BALL_FLYING: 'BALL_FLYING',
+            HIT_EFFECT: 'HIT_EFFECT',
+            SPIKE_FLYING: 'SPIKE_FLYING',
+            DEFENSE_RESULT: 'DEFENSE_RESULT',
+            MATCH_RESULT: 'MATCH_RESULT'
+        };
+
+        let currentGameState = STATE.MENU;
+        let playerTeam = 'JAPAN';
+        let currentStage = 0; // 0: ITALY, 1: FRANCE, 2: POLAND
+        let score = 0;
+        let attempts = 0;
+        let maxAttempts = 5;
+
+        // 敵データ設定
+        const stagesData = [
+            { name: 'ITALY', blockHeight: 70, digAbility: 50, color: '#16a34a', desc: '高精度システムバレー（バランス型）' },
+            { name: 'FRANCE', blockHeight: 50, digAbility: 90, color: '#2563eb', desc: '驚異の守備力（PERFECT以外超レシーブ）' },
+            { name: 'POLAND', blockHeight: 110, digAbility: 40, color: '#ffffff', desc: '2メートル級の高い壁（最高打点必須）' }
+        ];
+
+        // 物理エンティティ
+        let ball = { x: 0, y: 0, vx: 0, vy: 0, radius: 10, trail: [] };
+        let player = { x: 220, y: 350, baseY: 350, vy: 0, isJumping: false, maxJumpHeight: 0, swingFrame: 0 };
+        let setter = { x: 320, y: 350 };
+        let enemyBlocker = { x: 440, y: 350, baseY: 350, vy: 0, isJumping: false };
+        let enemyDig = { x: 650, y: 350 };
+
+        // 判定・演出フラグ
+        let spikeRating = ''; // 'PERFECT', 'GREAT', 'GOOD', 'MISS'
+        let defenseOutcome = ''; // 'SCORE', 'BLOCKED', 'DIGGED'
+        let hitStopTimer = 0;
+        let stateTimer = 0;
+        let hasSpiked = false;
+
+        // UI要素参照
+        const uiHeader = document.getElementById('ui-header');
+        const uiCenterScreen = document.getElementById('ui-center-screen');
+        const uiFooterGuide = document.getElementById('ui-footer-guide');
+        const uiEnemyName = document.getElementById('ui-enemy-name');
+        const uiScore = document.getElementById('ui-score');
+        const uiGuideText = document.getElementById('ui-guide-text');
+
+        // 入力監視（スペースキー & Canvasクリック）
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                handleAction();
+            }
+        });
+        canvas.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            handleAction();
+        });
+
+        function handleAction() {
+            if (currentGameState === STATE.WAIT_TOSS) {
+                // 1. トスを上げる
+                ball.x = setter.x;
+                ball.y = setter.y;
+                ball.vx = -2.8; // 左へふわっと
+                ball.vy = -14.5; // 上へ
+                ball.trail = [];
+                player.isJumping = false;
+                player.vy = 0;
+                player.y = player.baseY;
+                player.swingFrame = 0;
+                hasSpiked = false;
+                
+                // 敵のブロックAIがジャンプするタイミング予測用
+                enemyBlocker.isJumping = false;
+                enemyBlocker.y = enemyBlocker.baseY;
+
+                setGameState(STATE.BALL_FLYING);
+            } 
+            else if (currentGameState === STATE.BALL_FLYING) {
+                if (!player.isJumping) {
+                    // 2. ジャンプする
+                    player.isJumping = true;
+                    player.vy = -12.5; // 上昇
+                } else if (!hasSpiked) {
+                    // 3. スパイクを打つ
+                    processSpike();
+                }
+            }
+        }
+
+        function setGameState(newState) {
+            currentGameState = newState;
+            stateTimer = 0;
+
+            // UIの出し分け
+            if (newState === STATE.MENU) {
+                uiHeader.style.opacity = '0';
+                uiFooterGuide.style.opacity = '0';
+                uiCenterScreen.innerHTML = `
+                    <div id="menu-screen" class="space-y-6 pointer-events-auto">
+                        <h3 class="text-2xl font-black italic tracking-wide text-white">使用チームを選択してください</h3>
+                        <div class="flex justify-center gap-4">
+                            <button onclick="startGame('JAPAN')" class="bg-white text-black font-black px-6 py-3 rounded hover:bg-red-600 hover:text-white transition uppercase tracking-widest text-sm">🇯🇵 JAPAN (Balance)</button>
+                            <button onclick="startGame('USA')" class="bg-white text-black font-black px-6 py-3 rounded hover:bg-red-600 hover:text-white transition uppercase tracking-widest text-sm">🇺🇸 USA (Power)</button>
+                        </div>
+                        <p class="text-xs text-gray-400 mt-4"><i class="fas fa-info-circle mr-1"></i> 操作方法: スペースキー または 画面クリック のみ</p>
+                    </div>
+                `;
+            }
+            else if (newState === STATE.STAGE_INTRO) {
+                uiHeader.style.opacity = '1';
+                uiFooterGuide.style.opacity = '0';
+                uiEnemyName.innerText = stagesData[currentStage].name;
+                uiScore.innerText = `${score} / ${attempts}`;
+                
+                uiCenterScreen.innerHTML = `
+                    <div class="animate-bounce">
+                        <p class="text-red-500 font-black tracking-widest text-xs uppercase mb-2">STAGE 0${currentStage + 1}</p>
+                        <h2 class="text-5xl font-black italic tracking-tighter text-white">VS ${stagesData[currentStage].name}</h2>
+                        <p class="text-gray-400 text-xs tracking-widest mt-2">${stagesData[currentStage].desc}</p>
+                    </div>
+                `;
+                setTimeout(() => {
+                    if(currentGameState === STATE.STAGE_INTRO) setGameState(STATE.WAIT_TOSS);
+                }, 2500);
+            }
+            else if (newState === STATE.WAIT_TOSS) {
+                uiCenterScreen.innerHTML = '';
+                uiFooterGuide.style.opacity = '1';
+                uiGuideText.innerText = 'TAP / SPACE TO CALL TOSS (トスを呼ぶ)';
+                uiGuideText.className = "text-xs tracking-widest font-black text-red-500 animate-pulse";
+            }
+            else if (newState === STATE.BALL_FLYING) {
+                uiGuideText.innerText = '1st: JUMP  /  2nd: SPIKE!!';
+                uiGuideText.className = "text-xs tracking-widest font-black text-white";
+            }
+            else if (newState === STATE.DEFENSE_RESULT) {
+                uiScore.innerText = `${score} / ${attempts}`;
+                let resultHTML = '';
+                if (defenseOutcome === 'SCORE') {
+                    resultHTML = `<h1 class="text-6xl font-black italic text-green-400 tracking-tighter drop-shadow-lg animate-ping">SERVICE ACE!!!</h1>`;
+                } else if (defenseOutcome === 'BLOCKED') {
+                    resultHTML = `<h1 class="text-6xl font-black italic text-red-600 tracking-tighter drop-shadow-lg">SHUT OUT!! (ブロック崩壊)</h1>`;
+                } else {
+                    resultHTML = `<h1 class="text-5xl font-black italic text-yellow-500 tracking-tighter drop-shadow-lg">DIGGED!! (拾われた)</h1>`;
+                }
+                uiCenterScreen.innerHTML = `<div class="space-y-2">${resultHTML}<p class="text-xs text-gray-400 tracking-widest">Timing: ${spikeRating}</p></div>`;
+                
+                setTimeout(() => {
+                    if (currentGameState === STATE.DEFENSE_RESULT) {
+                        if (attempts >= maxAttempts) {
+                            setGameState(STATE.MATCH_RESULT);
+                        } else {
+                            setGameState(STATE.WAIT_TOSS);
+                        }
+                    }
+                }, 2000);
+            }
+            else if (newState === STATE.MATCH_RESULT) {
+                const win = score >= 3;
+                let btnHTML = '';
+                let title = '';
+                
+                if (win) {
+                    if (currentStage < stagesData.length - 1) {
+                        title = `<h2 class="text-4xl font-black text-green-400 italic">STAGE CLEAR!</h2><p class="text-sm text-gray-300 mt-2">世界の壁を1つ突破した。</p>`;
+                        btnHTML = `<button onclick="nextStage()" class="bg-green-500 text-white font-black px-8 py-3 rounded hover:bg-green-600 transition tracking-widest text-sm uppercase">NEXT STAGE (次へ)</button>`;
+                    } else {
+                        title = `<h2 class="text-5xl font-black text-yellow-400 italic animate-pulse">👑 WORLD CHAMPION!!</h2><p class="text-sm text-gray-300 mt-2">世界の強豪をすべてねじ伏せ、頂点に立った！</p>`;
+                        btnHTML = `<button onclick="resetGame()" class="bg-accent-red text-white font-black px-8 py-3 rounded hover:bg-red-700 transition tracking-widest text-sm uppercase">BACK TO MENU</button>`;
+                    }
+                } else {
+                    title = `<h2 class="text-4xl font-black text-red-600 italic">MATCH DEFEATED</h2><p class="text-sm text-gray-300 mt-2">世界の壁は高かった。戦略を練り直せ。</p>`;
+                    btnHTML = `<button onclick="retryStage()" class="bg-white text-black font-black px-8 py-3 rounded hover:bg-red-600 hover:text-white transition tracking-widest text-sm uppercase">RETRY (もう一度挑む)</button>`;
+                }
+
+                uiCenterScreen.innerHTML = `
+                    <div class="bg-black/80 border border-white/20 p-8 rounded-xl max-w-md mx-auto space-y-6 pointer-events-auto">
+                        <div>${title}</div>
+                        <div class="text-xl font-bold italic text-gray-400">FINAL SCORE: <span class="text-white font-black text-2xl">${score} / 5</span></div>
+                        <div>${btnHTML}</div>
+                    </div>
+                `;
+            }
+        }
+
+        function startGame(team) {
+            playerTeam = team;
+            currentStage = 0;
+            score = 0;
+            attempts = 0;
+            setGameState(STATE.STAGE_INTRO);
+        }
+
+        function nextStage() {
+            currentStage++;
+            score = 0;
+            attempts = 0;
+            setGameState(STATE.STAGE_INTRO);
+        }
+
+        function retryStage() {
+            score = 0;
+            attempts = 0;
+            setGameState(STATE.STAGE_INTRO);
+        }
+
+        function resetGame() {
+            setGameState(STATE.MENU);
+        }
+
+        // スパイク判定ロジック
+        function processSpike() {
+            hasSpiked = true;
+            player.swingFrame = 10; // スイングアニメーションフレーム数設定
+
+            // プレイヤーの手の位置 (頭の少し右上)
+            const handX = player.x + 15;
+            const handY = player.y - 35;
+
+            // ボールとの距離計算
+            const dx = ball.x - handX;
+            const dy = ball.y - handY;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+
+            // 1. タイミング基本判定
+            if (dist < 25) {
+                // ジャンプの高さが十分か（最高打点付近か）
+                if (player.y < 280) {
+                    spikeRating = 'PERFECT';
+                } else {
+                    spikeRating = 'GREAT';
+                }
+            } else if (dist < 55) {
+                spikeRating = 'GOOD';
+            } else {
+                spikeRating = 'MISS';
+            }
+
+            // 2. 弾道物理計算
+            attempts++;
+            if (spikeRating === 'MISS') {
+                ball.vx = 4;
+                ball.vy = 8; // 力なく落ちる、またはアウト
+                defenseOutcome = 'BLOCKED'; // ミスはブロック扱い、または失敗
+                setGameState(STATE.SPIKE_FLYING);
+            } else {
+                // パワー補正
+                const power = playerTeam === 'USA' ? 1.2 : 1.0;
+                let speed = 14;
+                if (spikeRating === 'PERFECT') speed = 25 * power;
+                if (spikeRating === 'GREAT') speed = 18 * power;
+                if (spikeRating === 'GOOD') speed = 12 * power;
+
+                // 角度（鋭さ）: 最高打点に近いほど鋭角に突き刺さる
+                const angle = 0.3 + ( (350 - player.y) / 150 ) * 0.4; // 放射ラジアン
+                ball.vx = Math.cos(angle) * speed;
+                ball.vy = Math.sin(angle) * speed;
+
+                // ヒットストップ（PERFECTなら強烈なストップ演出）
+                hitStopTimer = spikeRating === 'PERFECT' ? 12 : 4;
+                
+                setGameState(STATE.HIT_EFFECT);
+            }
+        }
+
+        // 敵の防御判定
+        function judgeDefense() {
+            const currentEnemy = stagesData[currentStage];
+            
+            // A. ブロック判定（ネット通過時：X=440付近）
+            // ポーランド(95)は打点が最高(PERFECT)かつ高くないとシャットアウト
+            const blockTop = enemyBlocker.baseY - currentEnemy.blockHeight;
+            
+            if (ball.y > blockTop && ball.y < enemyBlocker.baseY) {
+                // ボールがブロックの手の高さの範囲を通る場合
+                if (currentEnemy.name === 'POLAND') {
+                    if (spikeRating !== 'PERFECT' || player.y > 260) {
+                        defenseOutcome = 'BLOCKED';
+                        ball.vx = -6; // 自陣へ弾き返される
+                        ball.vy = 4;
+                        return;
+                    }
+                } else {
+                    // イタリア、フランスの通常ブロック
+                    if (spikeRating === 'GOOD') {
+                        defenseOutcome = 'BLOCKED';
+                        ball.vx = -4;
+                        ball.vy = 3;
+                        return;
+                    }
+                }
+            }
+
+            // B. レシーブ（ディグ）判定（敵レシーバー到達時：X=620以降）
+            // フランス(90)はPERFECT以外は全て絶対拾う
+            if (currentEnemy.name === 'FRANCE') {
+                if (spikeRating === 'PERFECT') {
+                    defenseOutcome = 'SCORE';
+                    score++;
+                } else {
+                    defenseOutcome = 'DIGGED';
+                    ball.vx = 2; // 上空にレシーブされる
+                    ball.vy = -12;
+                }
+            } 
+            // 通常の判定（イタリアなど）
+            else {
+                if (spikeRating === 'PERFECT' || spikeRating === 'GREAT') {
+                    defenseOutcome = 'SCORE';
+                    score++;
+                } else {
+                    // GOOD は確率または拾われる
+                    if (Math.random() * 100 < currentEnemy.digAbility) {
+                        defenseOutcome = 'DIGGED';
+                        ball.vx = 2;
+                        ball.vy = -12;
+                    } else {
+                        defenseOutcome = 'SCORE';
+                        score++;
+                    }
+                }
+            }
+        }
+
+        // --- ループ＆描画処理 ---
+        function update() {
+            // ヒットストップ処理
+            if (hitStopTimer > 0) {
+                hitStopTimer--;
+                if (hitStopTimer === 0 && currentGameState === STATE.HIT_EFFECT) {
+                    setGameState(STATE.SPIKE_FLYING);
+                }
+                return;
+            }
+
+            stateTimer++;
+
+            // プレイヤーのジャンプ物理
+            if (player.isJumping) {
+                player.y += player.vy;
+                player.vy += 0.55; // 重力
+                if (player.y >= player.baseY) {
+                    player.y = player.baseY;
+                    player.vy = 0;
+                    player.isJumping = false;
+                }
+            }
+            if (player.swingFrame > 0) player.swingFrame--;
+
+            // 敵の自動ブロックジャンプAI（ボールがネットに近づいたら連動してジャンプ）
+            if (currentGameState === STATE.BALL_FLYING && ball.x < 380 && ball.vx < 0 && ball.y < 260) {
+                if (!enemyBlocker.isJumping && Math.random() < 0.1) {
+                    enemyBlocker.isJumping = true;
+                    // ポーランドは高く跳ぶ
+                    enemyBlocker.vy = currentStage === 2 ? -11.5 : -8.5;
+                }
+            }
+            if (enemyBlocker.isJumping) {
+                enemyBlocker.y += enemyBlocker.vy;
+                enemyBlocker.vy += 0.55;
+                if (enemyBlocker.y >= enemyBlocker.baseY) {
+                    enemyBlocker.y = enemyBlocker.baseY;
+                    enemyBlocker.vy = 0;
+                    enemyBlocker.isJumping = false;
+                }
+            }
+
+            // ボールの物理
+            if (currentGameState === STATE.BALL_FLYING) {
+                ball.x += ball.vx;
+                ball.y += ball.vy;
+                ball.vy += 0.38; // ボール重力
+
+                // トレース軌跡追加
+                ball.trail.push({ x: ball.x, y: ball.y });
+                if (ball.trail.length > 8) ball.trail.shift();
+
+                // 床に落ちたらミス
+                if (ball.y >= 360) {
+                    attempts++;
+                    spikeRating = 'MISS';
+                    defenseOutcome = 'BLOCKED';
+                    setGameState(STATE.DEFENSE_RESULT);
+                }
+            }
+            else if (currentGameState === STATE.SPIKE_FLYING) {
+                const oldX = ball.x;
+                ball.x += ball.vx;
+                ball.y += ball.vy;
+
+                ball.trail.push({ x: ball.x, y: ball.y });
+                if (ball.trail.length > 12) ball.trail.shift();
+
+                // ネット際通過時のディフェンス判定（トリガー）
+                if (oldX <= 440 && ball.x >= 440) {
+                    judgeDefense();
+                    // ブロックされた場合は即状態が変わる可能性あり
+                    if (defenseOutcome === 'BLOCKED') {
+                        setGameState(STATE.SPIKE_FLYING); // 軌道は変わるが飛行継続
+                    }
+                }
+
+                // レシーバー到達判定
+                if (defenseOutcome === '' && oldX <= 630 && ball.x >= 630) {
+                    judgeDefense();
+                }
+
+                // コート床または画面端到達で結果へ
+                if (ball.y >= 355 || ball.x >= 800 || ball.x <= 0) {
+                    if (defenseOutcome === '') defenseOutcome = 'SCORE'; // すり抜けた場合は点数
+                    setGameState(STATE.DEFENSE_RESULT);
+                }
+            }
+            else if (currentGameState === STATE.DEFENSE_RESULT) {
+                // 決定後のボール軌道
+                ball.x += ball.vx;
+                ball.y += ball.vy;
+                if (defenseOutcome === 'DIGGED') ball.vy += 0.4; // レシーブされた球の重力
+                ball.trail.push({ x: ball.x, y: ball.y });
+                if (ball.trail.length > 8) ball.trail.shift();
+            }
+        }
+
+        function draw() {
+            // 背景クリア
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // グリッド床ライン
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < canvas.width; i += 40) {
+                ctx.beginPath();
+                ctx.moveTo(i, 350);
+                ctx.lineTo(i - 100, canvas.height);
+                ctx.stroke();
+            }
+
+            // コート（床面）
+            ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.moveTo(50, 350);
+            ctx.lineTo(750, 350);
+            ctx.stroke();
+
+            // アタックライン＆エンドライン
+            ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+            ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.moveTo(280, 350); ctx.lineTo(280, 350); // 自陣3m
+            ctx.stroke();
+
+            // ネット（中央 X=400）
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(400, 350);
+            ctx.lineTo(400, 220); // ネットの高さ
+            ctx.stroke();
+            // ネットの網模様（簡易）
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+            ctx.fillRect(397, 220, 6, 40);
+
+            // --- キャラクター描画（スタイリッシュ・ネオンシルエット風） ---
+
+            // 1. セッター (固定)
+            ctx.fillStyle = '#64748b';
+            ctx.beginPath(); ctx.arc(setter.x, setter.y - 30, 8, 0, Math.PI * 2); ctx.fill(); // 頭
+            ctx.strokeStyle = '#64748b'; ctx.lineWidth = 3;
+            ctx.beginPath(); ctx.moveTo(setter.x, setter.y); ctx.lineTo(setter.x, setter.y - 22); ctx.stroke(); // 体
+            ctx.beginPath(); ctx.moveTo(setter.x, setter.y - 20); ctx.lineTo(setter.x - 10, setter.y - 35); ctx.lineTo(setter.x + 10, setter.y - 35); ctx.stroke(); // トスあげる両手
+
+            // 2. プレイヤー（アタッカー）
+            let playerColor = spikeRating === 'PERFECT' && currentGameState === STATE.HIT_EFFECT ? '#ef4444' : '#f8f9fa';
+            ctx.fillStyle = playerColor;
+            ctx.strokeStyle = playerColor;
+            ctx.lineWidth = 4;
+            // 頭
+            ctx.beginPath(); ctx.arc(player.x, player.y - 35, 9, 0, Math.PI * 2); ctx.fill();
+            // 胴体
+            ctx.beginPath(); ctx.moveTo(player.x, player.y); ctx.lineTo(player.x, player.y - 26); ctx.stroke();
+            // 手（スイングアニメーション）
+            if (player.swingFrame > 0) {
+                // 振り下ろし
+                ctx.beginPath(); ctx.moveTo(player.x, player.y - 22); ctx.lineTo(player.x + 20, player.y - 5); ctx.stroke();
+            } else if (player.isJumping) {
+                // バックスイングから振り上げ
+                ctx.beginPath(); ctx.moveTo(player.x, player.y - 22); ctx.lineTo(player.x + 12, player.y - 55); ctx.stroke();
+            } else {
+                // 待機
+                ctx.beginPath(); ctx.moveTo(player.x, player.y - 22); ctx.lineTo(player.x - 10, player.y - 10); ctx.stroke();
+            }
+
+            // 3. 敵ブロッカー
+            let enemyColor = stagesData[currentStage].color;
+            ctx.fillStyle = enemyColor;
+            ctx.strokeStyle = enemyColor;
+            ctx.lineWidth = 4;
+            // 頭
+            ctx.beginPath(); ctx.arc(enemyBlocker.x, enemyBlocker.y - 38, 9, 0, Math.PI * 2); ctx.fill();
+            // 胴体
+            ctx.beginPath(); ctx.moveTo(enemyBlocker.x, enemyBlocker.y); ctx.lineTo(enemyBlocker.x, enemyBlocker.y - 28); ctx.stroke();
+            // 両手（常に上にブロックを展開）
+            ctx.beginPath(); ctx.moveTo(enemyBlocker.x, enemyBlocker.y - 24); ctx.lineTo(enemyBlocker.x - 10, enemyBlocker.y - 60); ctx.stroke();
+
+            // 4. 敵レシーバー
+            ctx.fillStyle = 'rgba(255,255,255,0.4)';
+            ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+            ctx.beginPath(); ctx.arc(enemyDig.x, enemyDig.y - 25, 8, 0, Math.PI * 2); ctx.fill(); // 低い姿勢
+            ctx.beginPath(); ctx.moveTo(enemyDig.x, enemyDig.y); ctx.lineTo(enemyDig.x - 5, enemyDig.y - 18); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(enemyDig.x - 5, enemyDig.y - 15); ctx.lineTo(enemyDig.x - 20, enemyDig.y - 22); ctx.stroke(); // レシーブの手
+
+            // --- ボールの描画 ---
+            if (currentGameState !== STATE.MENU && currentGameState !== STATE.STAGE_INTRO) {
+                // 軌跡トレイル
+                for (let i = 0; i < ball.trail.length; i++) {
+                    let op = (i + 1) / ball.trail.length * 0.3;
+                    ctx.fillStyle = spikeRating === 'PERFECT' ? `rgba(230, 0, 18, ${op})` : `rgba(250, 204, 21, ${op})`;
+                    ctx.beginPath();
+                    ctx.arc(ball.trail[i].x, ball.trail[i].y, ball.radius * (0.5 + i / ball.trail.length), 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // ボール本体（ネオンカラー）
+                ctx.fillStyle = spikeRating === 'PERFECT' ? '#e60012' : '#facc15';
+                ctx.shadowBlur = spikeRating === 'PERFECT' ? 20 : 5;
+                ctx.shadowColor = ctx.fillStyle;
+                ctx.beginPath();
+                ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.shadowBlur = 0; // リセット
+            }
+
+            // スパイク時のヒットフラッシュ演出
+            if (currentGameState === STATE.HIT_EFFECT && spikeRating === 'PERFECT') {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.arc(ball.x, ball.y, stateTimer * 8, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+        }
+
+        // メインループ
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // 初期化起動
+        setGameState(STATE.MENU);
+        gameLoop();
     </script>
 </body>
 </html>
